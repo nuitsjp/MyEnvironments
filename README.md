@@ -2,6 +2,8 @@
 
 全部じゃないけどね。だって恥ずかしいじゃん？
 
+[ここ見れば何が入ってるか大体わかります。](https://github.com/nuitsjp/MyEnvironments/blob/master/chocolatery.config)
+
 これも入れると便利だよってのがあればIssuesに記入いただけると嬉しいです。必ずしも入れるという訳にも行きませんが。
 
 なんならPRも一緒に貰えると踊って喜びます。

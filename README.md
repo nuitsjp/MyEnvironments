@@ -25,10 +25,3 @@ install-choco.cmdを実行するとChocolateryをインストールし、chocola
 CubePDFとCubePDF Utilityはハッシュが違うと怒られるけど、一応忘れないように書いておいてあります。
 
 SSMSが英語で入ってしまうのが悩み。最新でもないし。
-
-# Visual Studio
-
-インストーラーを[ダウンロード](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=professional&rel=16&utm_medium=microsoft&utm_source=docs.microsoft.com&utm_campaign=link+cta&utm_content=download+commandline+parameters+vs2019+rc)して「vs_professional.exe」にリネームする。
-
-
-そのあとinstall-vs-pro.cmdを実行する

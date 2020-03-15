@@ -1,2 +1,5 @@
-Invoke-WebRequest -Uri https://download.microsoft.com/download/2/9/C/29CC9731-CE3B-4EC8-89D8-E6B8EE88EAF5/SSMS-Setup-JPN.exe -OutFile SSMS-Setup-JPN.exe
+$Headers = @{
+        "Accept-Language" = "ja-jp"
+    }
+Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri https://aka.ms/ssmsfullsetup -OutFile SSMS-Setup-JPN.exe
 Start-Process -FilePath SSMS-Setup-JPN.exe -ArgumentList "/install /quiet /passive /norestart" -Verb runas -Wait

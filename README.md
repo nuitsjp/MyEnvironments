@@ -25,3 +25,9 @@ install-choco.cmdを実行するとChocolateryをインストールし、chocola
 CubePDFとCubePDF Utilityはハッシュが違うと怒られるけど、一応忘れないように書いておいてあります。
 
 SSMSが英語で入ってしまうのが悩み。最新でもないし。
+
+メモ
+
+```pwsh
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/nuitsjp/MyEnvironments/master/chocolatery.config -OutFile chocolatery.config
+```

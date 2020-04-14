@@ -30,4 +30,5 @@ SSMSが英語で入ってしまうのが悩み。最新でもないし。
 
 ```pwsh
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/nuitsjp/MyEnvironments/master/chocolatery.config -OutFile chocolatery.config
+choco install chocolatery.config -y
 ```

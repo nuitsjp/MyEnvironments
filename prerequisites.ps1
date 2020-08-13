@@ -45,5 +45,14 @@ foreach ($item in @("PowerShell-Yaml", "ScoopPlaybook")) {
   }
 }
 
-git clone https://github.com/nuitsjp/MyEnvironments.git
-
+PrintInfo -message "clone/pull MyEnvironments repository"
+if(Test-Path .\MyEnvironments)
+{
+  cd MyEnvironments
+  git update
+  cd ..
+}
+else
+{
+  git clone https://github.com/nuitsjp/MyEnvironments.git
+}

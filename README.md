@@ -32,3 +32,9 @@ SSMSが英語で入ってしまうのが悩み。最新でもないし。
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/nuitsjp/MyEnvironments/master/chocolatery.config -OutFile chocolatery.config
 choco install chocolatery.config -y
 ```
+
+## License
+
+以下のスクリプトを利用させていただいています。
+
+- local-provisioner by [guitarrapc](https://github.com/guitarrapc/local-provisioner)

@@ -57,4 +57,4 @@ if(Test-Path .\MyEnvironments)
   git config pull.rebase false
 }
 
-./update.ps1
+.\update.ps1

@@ -1,3 +1,15 @@
+# はじめに
+
+Windowsの開発環境を構築・メンテナンスするためのスクリプトなどです。
+
+# 初回実行
+
+```cmd
+Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+iwr -useb bit.ly/2PPZh4P | iex
+```
+
+
 # 開発環境をさらしてみる
 
 全部じゃないけどね。だって恥ずかしいじゃん？

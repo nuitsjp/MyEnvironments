@@ -12,7 +12,7 @@ if ($null -eq (Get-Command scoop.ps1*)) {
 }
 
 PrintInfo -message "install/update required scoop package"
-foreach ($item in @("7zip", "dark", "git", "gsudo", "innounp", "sudo", "vswhere")) {
+foreach ($item in @("7zip", "dark", "git", "innounp", "sudo", "vswhere")) {
   scoop install $item
   scoop update $item
   if (!$?) {
@@ -44,4 +44,6 @@ foreach ($item in @("PowerShell-Yaml", "ScoopPlaybook")) {
     Install-Module $item -Scope CurrentUser -Force -AllowClobber
   }
 }
+
+git clone https://github.com/nuitsjp/MyEnvironments.git
 

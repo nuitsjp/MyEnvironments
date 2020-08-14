@@ -16,4 +16,8 @@ finally
   cd ..
 }
 
+PrintInfo -message "install/update Visual Studio 2019"
+cd visualstudio
+.\update.ps1
+cd ..
 

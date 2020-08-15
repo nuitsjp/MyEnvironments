@@ -12,7 +12,7 @@ if ($null -eq (Get-Command scoop.ps1*)) {
 }
 
 PrintInfo -message "install/update required scoop package"
-foreach ($item in @("git", "gsudo")) {
+foreach ($item in @("git", "sudo")) {
   scoop install $item
   scoop update $item
   if (!$?) {
@@ -25,17 +25,14 @@ PrintInfo -message "update and check scoop"
 scoop update
 scoop checkup
 
-PrintInfo -message "Promote to Administrator."
-gsudo
-
 PrintInfo -message "Exclude scoop path from Microsoft Defender."
 foreach ($item in @("$env:UserProfile\scoop", "$env:ProgramData\scoop")) {
   if (!((Get-MpPreference).ExclusionPath -contains $item)) {
-    Add-MpPreference -ExclusionPath $item
+    sudo Add-MpPreference -ExclusionPath $item
   }
 }
 
 PrintInfo -message "Set longpath support."
 if (1 -ne (Get-ItemPropertyValue 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled')) {
-  Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
+  sudo Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
 }

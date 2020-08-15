@@ -2,22 +2,15 @@ function PrintInfo($message) {
   Write-Host $message -ForegroundColor Cyan
 }
 
-PrintInfo -message "update git repository"
+PrintInfo -message "Update git repository."
 git pull
 
-PrintInfo -message "install/update scoop packages"
-cd scoop
-try
-{
-  .\update.ps1
-}
-finally
-{
-  cd ..
-}
+PrintInfo -message "Install/update scoop packages."
+.\update-scoop.ps1
 
-PrintInfo -message "install/update Visual Studio 2019"
-cd visualstudio
-.\update.ps1
-cd ..
+PrintInfo -message "Install/update chocolatey packages."
+.\update-chocolatey.ps1
+
+PrintInfo -message "Install/update Visual Studio 2019."
+.\update-visualstudio.ps1
 

@@ -1,2 +1,6 @@
+## Visual Studio
 vs_*.exe
+
+## SQL Server
 *SSMS-Setup-JPN.exe
+ssms/**/log*.txt

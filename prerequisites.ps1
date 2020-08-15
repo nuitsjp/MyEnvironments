@@ -12,7 +12,7 @@ if ($null -eq (Get-Command scoop.ps1*)) {
 }
 
 PrintInfo -message "install/update required scoop package"
-foreach ($item in @("7zip", "dark", "git", "gsudo", "innounp", "sudo", "vswhere")) {
+foreach ($item in @("git", "gsudo")) {
   scoop install $item
   scoop update $item
   if (!$?) {
@@ -25,33 +25,17 @@ PrintInfo -message "update and check scoop"
 scoop update
 scoop checkup
 
-PrintInfo -message "exclude scoop path from Microsoft Defender"
+PrintInfo -message "Promote to Administrator."
 gsudo
+
+PrintInfo -message "Exclude scoop path from Microsoft Defender."
 foreach ($item in @("$env:UserProfile\scoop", "$env:ProgramData\scoop")) {
   if (!((Get-MpPreference).ExclusionPath -contains $item)) {
     Add-MpPreference -ExclusionPath $item
   }
 }
 
-PrintInfo -message "set longpath support"
+PrintInfo -message "Set longpath support."
 if (1 -ne (Get-ItemPropertyValue 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled')) {
   Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
 }
-
-PrintInfo -message "install required modules"
-$modules = Get-Module -ListAvailable
-foreach ($item in @("PowerShell-Yaml", "ScoopPlaybook")) {
-  if ($null -eq ($modules | where name -eq $item)) {
-    Install-Module $item -Scope CurrentUser -Force -AllowClobber
-  }
-}
-
-PrintInfo -message "clone/pull MyEnvironments repository"
-if(!(Test-Path .\MyEnvironments))
-{
-  git clone https://github.com/nuitsjp/MyEnvironments.git
-  cd MyEnvironments
-  git config pull.rebase false
-}
-
-.\update.ps1

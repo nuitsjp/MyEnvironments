@@ -17,7 +17,6 @@
       - googlechrome
       - hack-font
       - ilspy
-      - winmerge
       - linqpad
       - paint.net
       - powertoys
@@ -26,4 +25,5 @@
       - vscode
       - vswhere
       - windows-terminal
+      - winmerge
       - wiztree

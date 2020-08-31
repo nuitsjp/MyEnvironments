@@ -5,9 +5,6 @@ function PrintInfo($message) {
 PrintInfo -message "Update git repository."
 git pull
 
-PrintInfo -message "Install/update scoop packages."
-.\update-scoop.ps1
-
 PrintInfo -message "Install/update chocolatey packages."
 .\update-chocolatey.ps1
 

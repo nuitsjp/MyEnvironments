@@ -2,37 +2,23 @@ function PrintInfo($message) {
   Write-Host $message -ForegroundColor Cyan
 }
 
-PrintInfo -message "checking execution policy for current user."
+PrintInfo -message "Checking execution policy for current user."
 if ((Get-ExecutionPolicy -Scope CurrentUser) -ne "RemoteSigned") {
   Set-ExecutionPolicy RemoteSigned -scope CurrentUser
 }
-PrintInfo -message "checking scoop is installed."
-if ($null -eq (Get-Command scoop.ps1*)) {
-  iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+
+PrintInfo -message "Checking chocolatey is installed."
+if ($null -eq (Get-Command choco*)) {
+  [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 }
 
-PrintInfo -message "install/update required scoop package"
-foreach ($item in @("7zip", "dark", "git", "innounp", "sudo")) {
-  scoop install $item
-  scoop update $item
-  if (!$?) {
-    PrintInfo -message "COULD NOT COMPLETE INSTALLATION $item. please run 'scoop uninstall $item' then run again."
-    return
-  }
-}
+PrintInfo -message "Install git."
+choco install git.install -y --params="'/NoShellIntegration'"
 
-PrintInfo -message "update and check scoop"
-scoop update
-scoop checkup
-
-PrintInfo -message "Exclude scoop path from Microsoft Defender."
-foreach ($item in @("$env:UserProfile\scoop", "$env:ProgramData\scoop")) {
-  if (!((Get-MpPreference).ExclusionPath -contains $item)) {
-    Add-MpPreference -ExclusionPath $item
-  }
-}
-
-PrintInfo -message "Set longpath support."
+PrintInfo -message "Enable longpath support."
 if (1 -ne (Get-ItemPropertyValue 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled')) {
-  Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
+  sudo Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
 }
+
+PrintInfo -message "Completed 'prerequisites.ps1'. Press Enter."
+Read-Host

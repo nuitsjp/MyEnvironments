@@ -5,10 +5,14 @@ Windowsの開発環境を構築・メンテナンスするためのスクリプ�
 # 初回実行
 
 ```cmd
-Set-ExecutionPolicy RemoteSigned -scope CurrentUser
-iwr -useb bit.ly/2PPZh4P | iex
+Start-Process powershell -Verb runAs {Set-ExecutionPolicy RemoteSigned -scope CurrentUser -Force; iwr -useb bit.ly/2PPZh4P | iex; Read-Host}
 ```
 
+```cmd
+git clone https://github.com/nuitsjp/MyEnvironments.git
+cd MyEnvironments
+install.ps1
+```
 ## License
 
 以下のスクリプトを利用させていただいています。

@@ -1,7 +1,0 @@
-# https://github.com/Ash258/Scoop-JetBrains/tree/master/bucket
-- name: "Install JetBrains tools"
-  scoop_install:
-    state: present
-    bucket: jetbrains
-    name:
-      - JetBrains-Toolbox-RC

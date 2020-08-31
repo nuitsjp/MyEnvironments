@@ -5,7 +5,7 @@ Windowsの開発環境を構築・メンテナンスするためのスクリプ�
 # 初回実行
 
 ```cmd
-Start-Process powershell -Verb runAs {Set-ExecutionPolicy RemoteSigned -scope CurrentUser -Force; iwr -useb bit.ly/2PPZh4P | iex; Read-Host}
+Start-Process powershell -Verb runAs {Set-ExecutionPolicy RemoteSigned -scope CurrentUser -Force; iwr -useb bit.ly/2PPZh4P | iex}
 ```
 
 ```cmd

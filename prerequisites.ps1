@@ -15,6 +15,9 @@ if ($null -eq (Get-Command choco*)) {
 PrintInfo -message "Install git."
 choco install git.install -y --params="'/NoShellIntegration'"
 
+PrintInfo -message "Install gsudo."
+choco install gsudo -y
+
 PrintInfo -message "Enable longpath support."
 if (1 -ne (Get-ItemPropertyValue 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled')) {
   sudo Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1

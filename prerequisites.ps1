@@ -23,5 +23,8 @@ if (1 -ne (Get-ItemPropertyValue 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSys
   sudo Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
 }
 
+PrintInfo -message "Enable Hyper-V. "
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+
 PrintInfo -message "Completed 'prerequisites.ps1'. Press Enter."
 Read-Host

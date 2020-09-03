@@ -3,4 +3,4 @@ function PrintInfo($message) {
 }
 
 choco install chocolatery.config -y
-choco upgrade all
+choco upgrade all -y

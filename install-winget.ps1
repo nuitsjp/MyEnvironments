@@ -13,3 +13,6 @@ winget install Docker.DockerDesktop
 
 PrintInfo -message "Install VMware Workstation Pro."
 winget install VMware.WorkstationPro
+
+PrintInfo -message "Install Microsoft.Teams."
+winget install Microsoft.Teams

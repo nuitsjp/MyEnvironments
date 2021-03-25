@@ -18,11 +18,6 @@ choco install git.install -y --params="'/NoShellIntegration'"
 PrintInfo -message "Install gsudo."
 choco install gsudo -y
 
-PrintInfo -message "Enable longpath support."
-if (1 -ne (Get-ItemPropertyValue 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled')) {
-  sudo Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
-}
-
 PrintInfo -message "Enable Hyper-V. "
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 

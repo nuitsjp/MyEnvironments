@@ -12,6 +12,8 @@ Windowsの開発環境を構築・メンテナンスするためのスクリプ�
     - 最初はダミーアカウントで初期化すること（後で消します）
 2. 以下の内容のファイルを「D:\relocate.xml」に保存する。
 
+[https://raw.githubusercontent.com/nuitsjp/MyEnvironments/master/relocate.xml](https://raw.githubusercontent.com/nuitsjp/MyEnvironments/master/relocate.xml)
+
 ## Sysprepを実行する
 
 コマンドプロンプトを管理者モードで開き、次の2つのコマンドを実行する。

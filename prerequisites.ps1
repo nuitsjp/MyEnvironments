@@ -14,6 +14,8 @@ if ($null -eq (Get-Command choco*)) {
 
 PrintInfo -message "Install git."
 choco install git.install -y --params="'/NoShellIntegration'"
+git config --global user.email "nuits.jp@live.jp"
+git config --global user.name "Atsushi Nakamura"
 
 PrintInfo -message "Install gsudo."
 choco install gsudo -y

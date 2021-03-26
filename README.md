@@ -39,5 +39,5 @@ Start-Process powershell -Verb runAs {Set-ExecutionPolicy RemoteSigned -scope Cu
 ```cmd
 git clone https://github.com/nuitsjp/MyEnvironments.git
 cd MyEnvironments
-sudo install.ps1
+sudo .\install.ps1
 ```

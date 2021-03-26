@@ -3,7 +3,7 @@ function PrintInfo($message) {
 }
 
 PrintInfo -message "Install Visual Studio Code."
-winget install Microsoft.VisualStudioCode -i
+winget install Microsoft.VisualStudioCode-User-x64 -i
 
 PrintInfo -message "Install JetBrains.Toolbox."
 winget install JetBrains.Toolbox

@@ -2,6 +2,17 @@ function PrintInfo($message) {
   Write-Host $message -ForegroundColor Cyan
 }
 
+PrintInfo -message "Replace Caps with Ctrl."
+Set-ItemProperty `
+"Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout" `
+-name "Scancode Map" -value (`
+0x00,0x00,0x00,0x00,`
+0x00,0x00,0x00,0x00,`
+0x02,0x00,0x00,0x00,`
+0x1D,0x00,0x3A,0x00,`
+0x00,0x00,0x00,0x00 `
+) -type binary
+
 PrintInfo -message "Checking execution policy for current user."
 if ((Get-ExecutionPolicy -Scope CurrentUser) -ne "RemoteSigned") {
   Set-ExecutionPolicy RemoteSigned -scope CurrentUser
@@ -14,14 +25,11 @@ if ($null -eq (Get-Command choco*)) {
 
 PrintInfo -message "Install git."
 choco install git.install -y --params="'/NoShellIntegration'"
+git config --global user.email "nuits.jp@live.jp"
+git config --global user.name "Atsushi Nakamura"
 
 PrintInfo -message "Install gsudo."
 choco install gsudo -y
-
-PrintInfo -message "Enable longpath support."
-if (1 -ne (Get-ItemPropertyValue 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled')) {
-  sudo Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
-}
 
 PrintInfo -message "Enable Hyper-V. "
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All

@@ -31,7 +31,7 @@ net stop wmpnetworksvc
 # 初回実行
 
 ```cmd
-Start-Process powershell -Verb runAs {Set-ExecutionPolicy RemoteSigned -scope CurrentUser -Force; iwr -useb bit.ly/2PPZh4P | iex}
+Start-Process powershell -Verb runAs {Set-ExecutionPolicy RemoteSigned -scope CurrentUser -Force; iwr -useb https://raw.githubusercontent.com/nuitsjp/MyEnvironments/master/prerequisite.ps1 | iex}
 ```
 
 任意の場所にReposフォルダーを作成し、そこで以下のコマンドをPowerShellから実行する。

@@ -24,9 +24,5 @@ winget install Git.Git
 PrintInfo -message "Install gsudo."
 winget install gerardog.gsudo
 
-PrintInfo -message "Enable Hyper-V."
+PrintInfo -message "Enable Hyper-V. After enabled, reboot."
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
-
-PrintInfo -message "Completed 'prerequisites.ps1'. Press Enter to log off."
-Read-Host
-shutdown /l /f

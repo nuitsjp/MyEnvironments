@@ -20,8 +20,6 @@ if ((Get-ExecutionPolicy -Scope CurrentUser) -ne "RemoteSigned") {
 
 PrintInfo -message "Install git."
 winget install Git.Git
-git config --global user.email "nuits.jp@live.jp"
-git config --global user.name "Atsushi Nakamura"
 
 PrintInfo -message "Install gsudo."
 winget install gerardog.gsudo

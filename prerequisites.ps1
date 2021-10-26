@@ -24,15 +24,16 @@ if ($null -eq (Get-Command choco*)) {
 }
 
 PrintInfo -message "Install git."
-choco install git.install -y --params="'/NoShellIntegration'"
+winget install Git.Git
 git config --global user.email "nuits.jp@live.jp"
 git config --global user.name "Atsushi Nakamura"
 
 PrintInfo -message "Install gsudo."
-choco install gsudo -y
+winget install gerardog.gsudo
 
-PrintInfo -message "Enable Hyper-V. "
+PrintInfo -message "Enable Hyper-V."
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 
-PrintInfo -message "Completed 'prerequisites.ps1'. Press Enter."
+PrintInfo -message "Completed 'prerequisites.ps1'. Press Enter to log off."
 Read-Host
+shutdown /l /f

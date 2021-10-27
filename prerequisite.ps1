@@ -16,6 +16,7 @@ PrintInfo -message "Replace Caps with Ctrl."
 PrintInfo -message "Checking execution policy for current user."
 if ((Get-ExecutionPolicy -Scope CurrentUser) -ne "RemoteSigned") {
   Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+  Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 }
 
 PrintInfo -message "Install git."

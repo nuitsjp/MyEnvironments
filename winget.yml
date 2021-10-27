@@ -1,0 +1,16 @@
+- id : 7zip.7zip
+- id : gerardog.gsudo
+- id : DimitriVanHeesch.Doxygen
+- id : voidtools.Everything
+- id : Telerik.Fiddler
+- id : Git.Git
+- id : LINQPad.LINQPad.6
+- id : OpenJS.NodeJS
+- id : Microsoft.PowerShell
+- id : Microsoft.PowerToys
+- id : NickeManarin.ScreenToGif
+- id : SlackTechnologies.Slack
+  # packageParameters : >-
+  #   /VERYSILENT
+  #   /NORESTART
+  #   /NoShellIntegration

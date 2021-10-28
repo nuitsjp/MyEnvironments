@@ -10,7 +10,18 @@
 - id : Microsoft.PowerToys
 - id : NickeManarin.ScreenToGif
 - id : SlackTechnologies.Slack
-  # packageParameters : >-
-  #   /VERYSILENT
-  #   /NORESTART
-  #   /NoShellIntegration
+- id : WinMerge.WinMerge
+- id : AntibodySoftware.WizTree
+- id : Amazon.Kindle
+- id : IrfanSkiljan.IrfanView
+- id : LINE.LINE
+- id : Microsoft.AzureStorageEmulator
+- id : Microsoft.WindowsTerminal
+- id : JetBrains.Toolbox
+- id : Microsoft.VisualStudioCode
+  packageParameters : >-
+    /VERYSILENT
+    /NORESTART
+    /MERGETASKS=!runcode,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath
+- id : Microsoft.AzureCLI
+- id : Adobe.AdobeAcrobatReaderDC

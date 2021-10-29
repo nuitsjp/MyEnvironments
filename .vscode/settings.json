@@ -20,5 +20,11 @@
                 "Telerik",
                 "VERYSILENT",
                 "voidtools"
-        ]
+        ],
+        "[powershell]": {
+                "debug.saveBeforeStart": "nonUntitledEditorsInActiveGroup",
+                "editor.semanticHighlighting.enabled": false,
+                "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?",
+                "editor.tabSize": 4
+        }
 }

@@ -1,11 +1,18 @@
+. $PSScriptRoot\..\powershell\common.ps1
+
 function Install-SSMS {
     if(!(Test-Ssms)) {
         Write-Host 'Install SQL Server Management Studio.' -ForegroundColor Cyan
-        $Headers = @{
-            "Accept-Language" = "ja-jp"
+        Use-TempDir {
+            $Headers = @{
+                "Accept-Language" = "ja-jp"
+            }
+            Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri https://aka.ms/ssmsfullsetup -OutFile SSMS-Setup-JPN.exe
+            Start-Process -FilePath SSMS-Setup-JPN.exe -ArgumentList "/install /quiet /passive /norestart" -Verb runas -Wait
         }
-        Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri https://aka.ms/ssmsfullsetup -OutFile SSMS-Setup-JPN.exe
-        Start-Process -FilePath SSMS-Setup-JPN.exe -ArgumentList "/install /quiet /passive /norestart" -Verb runas -Wait
+    }
+    else {
+        Write-Host 'SQL Server Management Studio is installed.' -ForegroundColor Cyan
     }
 }
 
@@ -13,11 +20,16 @@ function Update-SSMS {
     if((Get-SsmsVersionOfLocal) -ne (Get-SsmsVersionOfWinget))
     {
         Write-Host 'Update SQL Server Management Studio.' -ForegroundColor Cyan
-        $Headers = @{
-            "Accept-Language" = "ja-jp"
+        Use-TempDir {
+            $Headers = @{
+                "Accept-Language" = "ja-jp"
+            }
+            Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri https://aka.ms/ssmsfullsetup -OutFile SSMS-Setup-JPN.exe
+            Start-Process -FilePath SSMS-Setup-JPN.exe -ArgumentList "/install /quiet /passive /norestart" -Verb runas -Wait
         }
-        Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri https://aka.ms/ssmsfullsetup -OutFile SSMS-Setup-JPN.exe
-        Start-Process -FilePath SSMS-Setup-JPN.exe -ArgumentList "/install /quiet /passive /norestart" -Verb runas -Wait
+    }
+    else {
+        Write-Host 'SQL Server Management Studio is up to date.' -ForegroundColor Cyan
     }
 }
 

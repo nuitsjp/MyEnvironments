@@ -7,7 +7,8 @@ git pull
 
 Update-WingetPackage
 Update-ChocolateryPackage
-Update-SSMS
+# SSMSは普通にWingetから日本語版でも更新できるようになっていた
+# Update-SSMS
 
 
 # function PrintInfo($message) {

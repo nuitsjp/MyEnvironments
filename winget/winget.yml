@@ -11,6 +11,7 @@
 - id: LINQPad.LINQPad.6
 - id: Microsoft.AzureCLI
 - id: Microsoft.AzureStorageEmulator
+- id: Microsoft.SQLServerManagementStudio
 - id: Microsoft.PowerShell
 - id: Microsoft.PowerToys
 - id: Microsoft.VisualStudio.2019.Enterprise

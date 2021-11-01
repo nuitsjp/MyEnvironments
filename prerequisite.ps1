@@ -66,7 +66,7 @@ else {
 
 
 Write-Log -NoNewLine "Check git..."
-if (Install-Winget -Id Git.Git) {
+if (Invoke-WingetInstall -Id Git.Git) {
     Write-Log "Installed git."
 }
 else {

@@ -91,7 +91,8 @@ if (!(Test-Path C:\Repos\MyEnvironments)) {
         New-Item -ItemType Directory C:\Repos > $null
     }
 
-    Start-Process powershell -Verb runAs -Wait {git clone https://github.com/nuitsjp/MyEnvironments.git C:\Repos\MyEnvironments}
+    $git = Join-Path $env:ProgramFiles 'Git\bin\git.exe'
+    Start-Process -FilePath $git -Wait -ArgumentList "clone https://github.com/nuitsjp/posh-winget.git C:\Repos\posh-winget" -NoNewWindow
 }
 else {
     Write-Log "Already cloned."

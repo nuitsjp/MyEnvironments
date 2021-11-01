@@ -80,7 +80,7 @@ if (!(Test-Path C:\Repos\MyEnvironments)) {
         New-Item -ItemType Directory C:\Repos > $null
     }
 
-    git clone https://github.com/nuitsjp/MyEnvironments.git C:\Repos\MyEnvironments
+    Start-Process powershell -Verb runAs -Wait {git clone https://github.com/nuitsjp/MyEnvironments.git C:\Repos\MyEnvironments}
 }
 else {
     Write-Log "Already cloned."

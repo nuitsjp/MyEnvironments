@@ -32,10 +32,20 @@ function Install-PowerShellModule {
     }
 }
 
+function Install-WingetPackage {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [string]
+        $Id
+    )
+}
+
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
 Install-PowerShellModule powershell-yaml
 Install-PowerShellModule posh-winget
+winget install --id gerardog.gsudo
 
 Write-Log -NoNewLine "Check Scancode Map..."
 $keyboardLayoutPath = "Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout"
@@ -66,7 +76,8 @@ else {
 
 
 Write-Log -NoNewLine "Check git..."
-if (Invoke-WingetInstall -Id Git.Git) {
+if ((Invoke-WingetList -Id Git.Git).Length -eq 0) {
+    winget install --id Git.Git
     Write-Log "Installed git."
 }
 else {

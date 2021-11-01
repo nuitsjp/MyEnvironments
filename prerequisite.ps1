@@ -32,9 +32,10 @@ function Install-PowerShellModule {
     }
 }
 
+Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+
 Install-PowerShellModule powershell-yaml
 Install-PowerShellModule posh-winget
-Install-PowerShellModule VSSetup
 
 Write-Log -NoNewLine "Check Scancode Map..."
 $keyboardLayoutPath = "Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout"
@@ -58,7 +59,6 @@ Write-Log -NoNewLine "Check PowerShell execution policy..."
 if ((Get-ExecutionPolicy -Scope CurrentUser) -ne "RemoteSigned") {
     Write-Log "Set PowerShell execution policy for current user."
     Set-ExecutionPolicy RemoteSigned -scope CurrentUser
-    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 }
 else {
     Write-Log "Already Set."
@@ -105,3 +105,4 @@ else {
     Write-Log "Already enabled."
 }
 
+Read-Host -Prompt "Press any key to exit."

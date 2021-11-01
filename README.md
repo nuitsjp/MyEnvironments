@@ -2,31 +2,11 @@
 
 Windowsの開発環境を構築・メンテナンスするためのスクリプトなどです。
 
-# Usersフォルダーの移動
+# 事前準備
 
-## 前提条件
+Userフォルダーを移動したい場合、一番最初につぎの手順を実施します。
 
-ここではDドライブに移動する前提で記述します。
-
-1. 新規インストール直後か、[設定] > [更新とセキュリティ] > [回復]から「このPCを初期状態に戻す」で初期化済みであること
-    - 最初はダミーアカウントで初期化すること（後で消します）
-2. 以下の内容のファイルを「D:\relocate.xml」に保存する。
-
-[https://raw.githubusercontent.com/nuitsjp/MyEnvironments/master/relocate.xml](https://raw.githubusercontent.com/nuitsjp/MyEnvironments/master/relocate.xml)
-
-## Sysprepを実行する
-
-コマンドプロンプトを管理者モードで開き、次の2つのコマンドを実行する。
-
-```cmd
-net stop wmpnetworksvc
-%windir%\system32\sysprep\sysprep.exe /oobe /reboot /unattend:d:\relocate.xml
-```
-
-再度OSの初期化に入ります。今度は、継続的に利用するアカウントでセットアップする。
-
-あとは最初に作成したダミーアカウントをデータ毎削除すればUsersフォルダーの移動完了。
-
+- [Windows 10でUsersフォルダを別ドライブへ移動する方法](https://www.nuits.jp/entry/windows10-relocate-users)
 
 # 初回実行
 
@@ -34,10 +14,19 @@ net stop wmpnetworksvc
 Start-Process powershell -Verb runAs {Set-ExecutionPolicy RemoteSigned -scope CurrentUser -Force; iwr -useb https://raw.githubusercontent.com/nuitsjp/MyEnvironments/master/prerequisite.ps1 | iex}
 ```
 
-任意の場所にReposフォルダーを作成し、そこで以下のコマンドをPowerShellから実行する。
+完了後、PCを再起動します。
 
-```cmd
-git clone https://github.com/nuitsjp/MyEnvironments.git
-cd MyEnvironments
-sudo .\install.ps1
+PowerShellからつぎのコマンドを実行します。
+
+```powershell
+cd c:\Repos\MyEnvironments
+sudo .\update.ps1
+```
+# 更新
+
+PowerShellからつぎのコマンドを実行します。
+
+```powershell
+cd c:\Repos\MyEnvironments
+sudo .\update.ps1
 ```

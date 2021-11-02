@@ -98,7 +98,7 @@ if (!(Test-Path C:\Repos\MyEnvironments)) {
     }
 
     Set-Item Env:Path "$Env:Path;$env:ProgramFiles\Git\bin\"
-    git clone https://github.com/nuitsjp/posh-winget.git C:\Repos\posh-winget
+    git clone https://github.com/nuitsjp/MyEnvironments.git C:\Repos\MyEnvironments
 }
 else {
     Write-Log "Already cloned."

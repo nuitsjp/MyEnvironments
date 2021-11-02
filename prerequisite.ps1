@@ -74,7 +74,10 @@ Write-Log -NoNewLine "Check Git.Git..."
 if ((Invoke-WingetList -Id Git.Git).Length -eq 0) {
     Write-Log "Install Git.Git."
     winget install --id Git.Git
+    
     Set-Item Env:Path "$Env:Path;$env:ProgramFiles\Git\cmd\"
+    git config --global user.name "Atsushi Nakamura"
+    git config --global user.email "nuits.jp@live.jp"
 }
 else {
     Write-Log "Already installed."
@@ -114,8 +117,6 @@ if (!(Test-Path C:\Repos\MyEnvironments)) {
         New-Item -ItemType Directory C:\Repos > $null
     }
 
-    git config --global user.name "Atsushi Nakamura"
-    git config --global user.email "nuits.jp@live.jp"
     git clone https://github.com/nuitsjp/MyEnvironments.git C:\Repos\MyEnvironments
 }
 else {

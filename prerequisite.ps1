@@ -39,13 +39,29 @@ function Install-WingetPackage {
         [string]
         $Id
     )
+    Write-Log -NoNewLine "Check $Id..."
+    if ((Invoke-WingetList -Id gerardog.gsudo).Length -eq 0) {
+        Write-Log "Install $Id."
+        winget install --id $Id
+    }
+    else {
+        Write-Log "Already installed."
+    }
 }
 
-Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+Write-Log -NoNewLine "Check PSGallery InstallationPolicy..."
+if ((Get-PSRepository -Name PSGallery).InstallationPolicy -eq 'Untrusted') {
+    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+    Write-Log "InstallationPolicy is set to Trusted."
+}
+else {
+    Write-Log "Already trusted."
+}
 
-Install-PowerShellModule powershell-yaml
+Install-PowerShellModule powershell-yaml 
 Install-PowerShellModule posh-winget
-winget install --id gerardog.gsudo
+Install-WingetPackage gerardog.gsudo
+Install-WingetPackage Git.Git
 
 Write-Log -NoNewLine "Check Scancode Map..."
 $keyboardLayoutPath = "Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout"
@@ -74,16 +90,6 @@ else {
     Write-Log "Already Set."
 }
 
-
-Write-Log -NoNewLine "Check git..."
-if ((Invoke-WingetList -Id Git.Git).Length -eq 0) {
-    winget install --id Git.Git
-    Write-Log "Installed git."
-}
-else {
-    Write-Log "Already installed."
-}
-
 Write-Log -NoNewLine "Check MyEnvironments..."
 if (!(Test-Path C:\Repos\MyEnvironments)) {
     Write-Log "Clone MyEnvironments."
@@ -91,8 +97,8 @@ if (!(Test-Path C:\Repos\MyEnvironments)) {
         New-Item -ItemType Directory C:\Repos > $null
     }
 
-    $git = Join-Path $env:ProgramFiles 'Git\bin\git.exe'
-    Start-Process -FilePath $git -Wait -ArgumentList "clone https://github.com/nuitsjp/posh-winget.git C:\Repos\posh-winget" -NoNewWindow
+    Set-Item Env:Path "$Env:Path;$env:ProgramFiles\Git\bin\"
+    git clone https://github.com/nuitsjp/posh-winget.git C:\Repos\posh-winget
 }
 else {
     Write-Log "Already cloned."

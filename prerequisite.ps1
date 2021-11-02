@@ -60,8 +60,25 @@ else {
 
 Install-PowerShellModule powershell-yaml 
 Install-PowerShellModule posh-winget
-Install-WingetPackage gerardog.gsudo
-Install-WingetPackage Git.Git
+
+Write-Log -NoNewLine "Check gerardog.gsudo..."
+if ((Invoke-WingetList -Id gerardog.gsudo).Length -eq 0) {
+    Write-Log "Install gerardog.gsudo."
+    winget install --id gerardog.gsudo
+}
+else {
+    Write-Log "Already installed."
+}
+
+Write-Log -NoNewLine "Check Git.Git..."
+if ((Invoke-WingetList -Id Git.Git).Length -eq 0) {
+    Write-Log "Install Git.Git."
+    winget install --id Git.Git
+    Set-Item Env:Path "$Env:Path;$env:ProgramFiles\Git\cmd\"
+}
+else {
+    Write-Log "Already installed."
+}
 
 Write-Log -NoNewLine "Check Scancode Map..."
 $keyboardLayoutPath = "Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout"
@@ -97,7 +114,8 @@ if (!(Test-Path C:\Repos\MyEnvironments)) {
         New-Item -ItemType Directory C:\Repos > $null
     }
 
-    Set-Item Env:Path "$Env:Path;$env:ProgramFiles\Git\bin\"
+    git config --global user.name "Atsushi Nakamura"
+    git config --global user.email "nuits.jp@live.jp"
     git clone https://github.com/nuitsjp/MyEnvironments.git C:\Repos\MyEnvironments
 }
 else {

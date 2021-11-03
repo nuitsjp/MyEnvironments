@@ -1,5 +1,5 @@
 - id: 7zip.7zip
-- id: Adobe.AdobeAcrobatReaderDC
+- id: Adobe.Acrobat.Reader.64-bit
 - id: Amazon.Kindle
 - id: AntibodySoftware.WizTree
 - id: DimitriVanHeesch.Doxygen
@@ -25,6 +25,7 @@
 - id: OpenJS.NodeJS
 - id: SlackTechnologies.Slack
 - id: Telerik.Fiddler
+- id: Zoom.Zoom
 - id: voidtools.Everything
 - id: WinMerge.WinMerge
 

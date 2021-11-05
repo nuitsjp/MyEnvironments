@@ -4,6 +4,7 @@
 - id: AntibodySoftware.WizTree
 - id: DimitriVanHeesch.Doxygen
 - id: gerardog.gsudo
+- id: Fork.Fork
 - id: Git.Git
 - id: IrfanSkiljan.IrfanView
 - id: JetBrains.Toolbox
@@ -14,7 +15,6 @@
 - id: Microsoft.SQLServerManagementStudio
 - id: Microsoft.PowerShell
 - id: Microsoft.PowerToys
-- id: Microsoft.VisualStudio.2019.Enterprise
 - id: Microsoft.VisualStudioCode
   packageParameters: >-
     /VERYSILENT

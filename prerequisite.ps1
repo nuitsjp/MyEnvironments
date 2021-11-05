@@ -28,6 +28,7 @@ function Install-PowerShellModule {
         Install-Module -Name $Name
     }
     else {
+        Import-Module -Name $Name
         Write-Log "Already installed."
     }
 }

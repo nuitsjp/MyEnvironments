@@ -2,6 +2,9 @@
 . $PSScriptRoot\chocolatery\chocolatery.ps1
 . $PSScriptRoot\visualstudio\visualstudio.ps1
 
+Import-Module powershell-yaml
+Import-Module posh-winget
+
 Write-Host 'Update git repository.' -ForegroundColor Cyan
 git pull
 

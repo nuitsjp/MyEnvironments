@@ -8,6 +8,7 @@
 - id: Git.Git
 - id: IrfanSkiljan.IrfanView
 - id: JetBrains.Toolbox
+- id: JetBrains.Rider
 - id: LINE.LINE
 - id: LINQPad.LINQPad.6
 - id: Microsoft.AzureCLI

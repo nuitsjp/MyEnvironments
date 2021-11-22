@@ -14,24 +14,19 @@ function Install-VisualStudio2019 {
     }
 }
 
-function Update-VisualStudio2019 {
-    $displayName = 'Visual Studio Enterprise 2019'
-    $installed = Invoke-WingetList -Id Microsoft.VisualStudio.2019.Enterprise
-    if ($installed.Length -eq 0) {
-        Write-Host "$displayName is not installed." -ForegroundColor Cyan
+function Install-VisualStudio2022 {
+    $displayName = 'Visual Studio Enterprise 2022'
+    $installed = Invoke-WingetList -Id Microsoft.VisualStudio.2022.Enterprise
+    if ($installed.Length -ne 0) {
+        Write-Host "$displayName is already installed." -ForegroundColor Cyan
         return
     }
 
-    if ($null -eq $installed.Available) {
-        Write-Host "$displayName is already up to date." -ForegroundColor Cyan
-        return
-    }
-
-    Write-Host "Update $displayName" -ForegroundColor Cyan
+    Write-Host "Install $displayName" -ForegroundColor Cyan
     Use-TempDir {
-        Invoke-WebRequest -UseBasicParsing -Uri http://aka.ms/vs/16/release/vs_enterprise.exe -OutFile vs_enterprise.exe
-        Start-Process -FilePath vs_enterprise.exe -ArgumentList "update --passive --norestart --wait" -Verb runas -Wait
-        Write-Host "$displayName has been updated." -ForegroundColor Cyan
+        Invoke-WebRequest -UseBasicParsing -Uri http://aka.ms/vs/17/release/vs_enterprise.exe -OutFile vs_enterprise.exe
+        Start-Process -FilePath vs_enterprise.exe -ArgumentList "--config `"${PSScriptRoot}\.vs2019enterprise_config`" --passive --norestart --wait" -Verb runas -Wait
+        Write-Host "$displayName is installed." -ForegroundColor Cyan
     }
 }
 

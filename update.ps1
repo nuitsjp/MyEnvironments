@@ -8,6 +8,5 @@ Import-Module posh-winget
 Write-Host 'Update git repository.' -ForegroundColor Cyan
 git pull
 
-Update-VisualStudio2019
 Update-WingetPackage
 Update-ChocolateryPackage

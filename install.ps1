@@ -6,5 +6,6 @@ Import-Module powershell-yaml
 Import-Module posh-winget
 
 Install-VisualStudio2019
+Install-VisualStudio2022
 Install-WingetPackage
 Install-ChocolateryPackage

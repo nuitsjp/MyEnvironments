@@ -2,11 +2,14 @@
 - id: Adobe.Acrobat.Reader.64-bit
 - id: Amazon.Kindle
 - id: AntibodySoftware.WizTree
+- id: CubeSoft.CubePDF
+- id: CubeSoft.CubePDFUtility
 - id: DeepL.DeepL
 - id: DimitriVanHeesch.Doxygen
 - id: gerardog.gsudo
 - id: Fork.Fork
 - id: Git.Git
+- id: icsharpcode.ILSpy
 - id: IrfanSkiljan.IrfanView
 - id: JetBrains.Toolbox
 - id: JetBrains.Rider

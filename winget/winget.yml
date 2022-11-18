@@ -6,6 +6,7 @@
 - id: CubeSoft.CubePDFUtility
 - id: DeepL.DeepL
 - id: DimitriVanHeesch.Doxygen
+- id: Docker.DockerDesktop
 - id: gerardog.gsudo
 - id: Fork.Fork
 - id: Git.Git
@@ -13,6 +14,7 @@
 - id: IrfanSkiljan.IrfanView
 - id: JetBrains.Toolbox
 - id: JetBrains.Rider
+- id: JetBrains.ReSharper
 - id: LINE.LINE
 - id: LINQPad.LINQPad.6
 - id: Microsoft.AzureCLI

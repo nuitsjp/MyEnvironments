@@ -27,6 +27,11 @@
     /VERYSILENT
     /NORESTART
     /MERGETASKS=!runcode,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath
+- id: Microsoft.VisualStudioCode.Insiders
+  packageParameters: >-
+    /VERYSILENT
+    /NORESTART
+    /MERGETASKS=!runcode,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath
 - id: Microsoft.WindowsTerminal
 - id: NickeManarin.ScreenToGif
 - id: OpenJS.NodeJS

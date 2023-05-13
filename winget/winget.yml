@@ -15,6 +15,7 @@
 - id: JetBrains.Toolbox
 - id: JetBrains.Rider
 - id: JetBrains.ReSharper
+- id: Kairos.DuetDisplay
 - id: LINE.LINE
 - id: LINQPad.LINQPad.6
 - id: Microsoft.AzureCLI

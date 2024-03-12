@@ -35,7 +35,9 @@
     /MERGETASKS=!runcode,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath
 - id: Microsoft.WindowsTerminal
 - id: NickeManarin.ScreenToGif
+- id: Nvidia.Broadcast
 - id: OpenJS.NodeJS
+- id: dotPDNLLC.paintdotnet
 - id: SlackTechnologies.Slack
 - id: Telerik.Fiddler
 - id: Zoom.Zoom

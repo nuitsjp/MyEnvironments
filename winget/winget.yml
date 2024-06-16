@@ -2,6 +2,7 @@
 - id: Adobe.Acrobat.Reader.64-bit
 - id: Amazon.Kindle
 - id: AntibodySoftware.WizTree
+- id: CoreyButler.NVMforWindows
 - id: CubeSoft.CubePDF
 - id: CubeSoft.CubePDFUtility
 - id: DeepL.DeepL
@@ -36,7 +37,9 @@
     /MERGETASKS=!runcode,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath
 - id: Microsoft.WindowsTerminal
 - id: NickeManarin.ScreenToGif
+- id: Nvidia.Broadcast
 - id: OpenJS.NodeJS
+- id: dotPDNLLC.paintdotnet
 - id: SlackTechnologies.Slack
 - id: Telerik.Fiddler
 - id: Zoom.Zoom

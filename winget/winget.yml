@@ -20,6 +20,7 @@
 - id: LINQPad.LINQPad.7
 - id: Microsoft.AzureCLI
 - id: Microsoft.AzureStorageEmulator
+- id: Microsoft.DevHome
 - id: Microsoft.SQLServerManagementStudio
 - id: Microsoft.PowerShell
 - id: Microsoft.PowerToys

@@ -10,6 +10,7 @@
 - id: Docker.DockerDesktop
 - id: gerardog.gsudo
 - id: Fork.Fork
+- id: GitHub.cli
 - id: Git.Git
 - id: icsharpcode.ILSpy
 - id: IrfanSkiljan.IrfanView

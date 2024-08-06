@@ -6,10 +6,8 @@
 - id: CubeSoft.CubePDF
 - id: CubeSoft.CubePDFUtility
 - id: DeepL.DeepL
-- id: DimitriVanHeesch.Doxygen
 - id: Docker.DockerDesktop
 - id: gerardog.gsudo
-- id: Fork.Fork
 - id: GitHub.cli
 - id: Git.Git
 - id: icsharpcode.ILSpy
@@ -17,7 +15,6 @@
 - id: JetBrains.Toolbox
 - id: JetBrains.Rider
 - id: JetBrains.ReSharper
-- id: Kairos.DuetDisplay
 - id: LINE.LINE
 - id: LINQPad.LINQPad.7
 - id: Microsoft.AzureCLI
@@ -38,12 +35,9 @@
     /MERGETASKS=!runcode,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath
 - id: Microsoft.WindowsTerminal
 - id: NickeManarin.ScreenToGif
-- id: Nvidia.Broadcast
 - id: OpenJS.NodeJS
 - id: dotPDNLLC.paintdotnet
 - id: SlackTechnologies.Slack
-- id: Telerik.Fiddler
 - id: Zoom.Zoom
 - id: voidtools.Everything
 - id: WinMerge.WinMerge
-

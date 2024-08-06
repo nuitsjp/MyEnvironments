@@ -62,14 +62,8 @@ else {
 Install-PowerShellModule powershell-yaml 
 Install-PowerShellModule posh-winget
 
-Write-Log -NoNewLine "Check gerardog.gsudo..."
-if ((Invoke-WingetList -Id gerardog.gsudo).Length -eq 0) {
-    Write-Log "Install gerardog.gsudo."
-    winget install --id gerardog.gsudo
-}
-else {
-    Write-Log "Already installed."
-}
+Write-Log "Install gerardog.gsudo."
+winget install --id gerardog.gsudo
 
 Write-Log -NoNewLine "Check Git.Git..."
 if ((Invoke-WingetList -Id Git.Git).Length -eq 0) {

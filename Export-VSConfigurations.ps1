@@ -11,7 +11,10 @@ $vsInstallerExe = Join-Path $vsInstallerDir "vs_installer.exe"
 # vswhere.exeの実行結果をJSON形式で取得し、PowerShellオブジェクトに変換
 $vsInstallations = & $vswhereExe -format json -prerelease | ConvertFrom-Json
 
-$configDir = Join-Path -Path $PSScriptRoot -ChildPath "visualstudio"
+$configDir = Join-Path -Path $PSScriptRoot -ChildPath "vsconfig"
+if ((Test-Path -Path $configDir) -eq $false) {
+    New-Item -Path $configDir -ItemType Directory > $null
+}
 
 
 foreach ($installation in $vsInstallations) {
@@ -24,14 +27,9 @@ foreach ($installation in $vsInstallations) {
     # 構成のエクスポートを実行（非対話的に）
     $process = Start-Process -FilePath $vsInstallerExe -ArgumentList "export", "--productId", $productId, "--channelId", $channelId, "--config", $exportPath, "--quiet" -NoNewWindow -PassThru -Wait
 
-    if ($process.ExitCode -eq 0) {
-        Write-Host "Successfully exported configuration to $exportPath" -ForegroundColor Green
-    } else {
-        Write-Host "Failed to export configuration for $channelId. Exit code: $($process.ExitCode)" -ForegroundColor Red
-        exit $process.ExitCode
+    if ($process.ExitCode -ne 0) {
+        Write-Error "Failed to export configuration for $channelId. Exit code: $($process.ExitCode)"
     }
-
-    Write-Host "---"
 }
 
 Write-Host "Export process completed." -ForegroundColor Cyan

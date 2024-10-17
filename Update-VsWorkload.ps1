@@ -1,12 +1,11 @@
 # エラーが発生した場合に即座に停止するように設定
+$ErrorActionPreference = "Stop"
+
 # 管理者権限チェック
-if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
-{
+if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Error "このスクリプトは管理者権限で実行する必要があります。PowerShellを管理者として実行し、スクリプトを再度実行してください。"
     exit 1
 }
-
-$ErrorActionPreference = "Stop"
 
 # Visual Studio Installerのパスを変数として定義
 $vsInstallerDir = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer"
@@ -31,6 +30,9 @@ $workloadIds = @(
     "Microsoft.Net.Component.4.8.1.TargetingPack"
 )
 
+# インストールが必要なワークロードのリスト
+$missingWorkloads = @()
+
 # Visual Studioのインストールパスを取得する
 $installationPath = & $vswhereExe -format json -prerelease | 
     ConvertFrom-Json | 
@@ -38,6 +40,7 @@ $installationPath = & $vswhereExe -format json -prerelease |
     Select-Object -First 1 | 
     Select-Object -ExpandProperty installationPath
 
+# インストールされていないワークロードをチェック
 foreach ($workloadId in $workloadIds) {
     $isExists = & $vswhereExe `
         -products $productId `
@@ -50,33 +53,43 @@ foreach ($workloadId in $workloadIds) {
         ForEach-Object { $_.Count -gt 0 }
 
     if ($isExists -eq $false) {
-        Write-Host "Workload '$workloadId' is not installed. Adding workload..." -ForegroundColor Cyan
-        # Start-Processを使用してワークロードやコンポーネントを追加
-        # 重要: Start-Processを使用する理由
-        # vs_installer.exeの実行後、スクリプトが自動的に終了せず、Enterキーの入力を待つ問題を解決するため
-        $process = Start-Process `
-            -FilePath $vsInstallerExe `
-            -ArgumentList `
-                "modify", `
-                "--productId", $productId, `
-                "--channelId", $channelId, `
-                "--add", $workloadId, `
-                "--includeRecommended", `
-                "--quiet", `
-                "--norestart" `
-            -NoNewWindow `
-            -PassThru `
-            -Wait
-
-        # プロセスの終了コードをチェックしてエラーを報告
-        if ($process.ExitCode -ne 0) {
-            Write-Error "チャンネル $channelId のインストール修正に失敗しました。終了コード: $($process.ExitCode)"
-        }
-        else {
-            Write-Host "Workload '$workloadId' のインストール修正に成功しました。" -ForegroundColor Cyan
-        }
+        Write-Host "Workload '$workloadId' is not installed." -ForegroundColor Yellow
+        $missingWorkloads += $workloadId
     }
     else {
         Write-Host "Workload '$workloadId' は既にインストールされています。"
     }
+}
+
+# 未インストールのワークロードがあれば一括でインストール
+if ($missingWorkloads.Count -gt 0) {
+    Write-Host "以下のワークロードをインストールします: $($missingWorkloads -join ', ')" -ForegroundColor Cyan
+
+    # Start-Processを使用してワークロードを一括で追加
+    # 重要: Start-Processを使用する理由
+    # vs_installer.exeの実行後、スクリプトが自動的に終了せず、Enterキーの入力を待つ問題を解決するため
+    $process = Start-Process `
+        -FilePath $vsInstallerExe `
+        -ArgumentList `
+            "modify", `
+            "--productId", $productId, `
+            "--channelId", $channelId, `
+            "--add", ($missingWorkloads -join " --add "), `
+            "--includeRecommended", `
+            "--quiet", `
+            "--norestart" `
+        -NoNewWindow `
+        -PassThru `
+        -Wait
+
+    # プロセスの終了コードをチェックしてエラーを報告
+    if ($process.ExitCode -ne 0) {
+        Write-Error "チャンネル $channelId のインストール修正に失敗しました。終了コード: $($process.ExitCode)"
+    }
+    else {
+        Write-Host "ワークロードのインストール修正に成功しました。" -ForegroundColor Cyan
+    }
+}
+else {
+    Write-Host "すべてのワークロードは既にインストールされています。"
 }

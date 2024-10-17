@@ -1,21 +1,3 @@
-function Install-PowerShellModule {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [string]
-        $Name
-    )
-    Write-Host -NoNewLine "Check $Name..."
-    if (($null -eq (Get-Module $Name -ListAvailable))) {
-        Write-Host "Install $Name."
-        Install-Module -Name $Name
-    }
-    else {
-        Import-Module -Name $Name
-        Write-Host "Already installed."
-    }
-}
-
 function Install-WingetPackage {
     [CmdletBinding()]
     param (
@@ -42,11 +24,25 @@ else {
     Write-Host "Already trusted."
 }
 
-Install-PowerShellModule powershell-yaml 
-Install-PowerShellModule posh-winget
+Write-Host -NoNewLine "Check powershell-yaml..."
+if (-not (Get-Module -Name powershell-yaml -ListAvailable)) {
+    Write-Host "Install powershell-yaml."
+    Install-Module -Name powershell-yaml -Force -Scope CurrentUser -ErrorAction Stop
+}
+else {
+    Write-Host "Already installed."
+}
+Import-Module -Name powershell-yaml
 
-Write-Host "Install gerardog.gsudo."
-winget install --id gerardog.gsudo
+Write-Host -NoNewLine "Check posh-winget..."
+if (-not (Get-Module -Name posh-winget -ListAvailable)) {
+    Write-Host "Install posh-winget."
+    Install-Module -Name posh-winget -Force -Scope CurrentUser -ErrorAction Stop
+}
+else {
+    Write-Host "Already installed."
+}
+Import-Module -Name posh-winget
 
 Write-Host -NoNewLine "Check Git.Git..."
 if ((Invoke-WingetList -Id Git.Git).Length -eq 0) {

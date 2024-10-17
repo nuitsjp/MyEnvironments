@@ -1,20 +1,3 @@
-function Install-WingetPackage {
-    [CmdletBinding()]
-    param (
-        [Parameter()]
-        [string]
-        $Id
-    )
-    Write-Host -NoNewLine "Check $Id..."
-    if ((Invoke-WingetList -Id gerardog.gsudo).Length -eq 0) {
-        Write-Host "Install $Id."
-        winget install --id $Id
-    }
-    else {
-        Write-Host "Already installed."
-    }
-}
-
 Write-Host -NoNewLine "Check PSGallery InstallationPolicy..."
 if ((Get-PSRepository -Name PSGallery).InstallationPolicy -eq 'Untrusted') {
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted

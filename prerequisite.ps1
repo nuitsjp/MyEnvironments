@@ -32,7 +32,7 @@ if ((Invoke-WingetList -Id Git.Git).Length -eq 0) {
     Write-Host "Install Git.Git."
     winget install --id Git.Git
     
-    Set-Item Env:Path "$Env:Path;$env:ProgramFiles\Git\cmd\"
+    $env:Path += ";$env:ProgramFiles\Git\cmd\"
     git config --global user.name "Atsushi Nakamura"
     git config --global user.email "nuits.jp@live.jp"
 }
@@ -42,7 +42,7 @@ else {
 
 Write-Host -NoNewLine "Check Scancode Map..."
 $keyboardLayoutPath = "Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout"
-if ($null -eq ((Get-ItemProperty $keyboardLayoutPath)."Scancode Map")) {
+if (-not (Get-ItemProperty $keyboardLayoutPath)."Scancode Map") {
     Write-Host -message "Replace Caps with Ctrl."
     Set-ItemProperty `
         "Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout" `
@@ -78,16 +78,6 @@ if (!(Test-Path C:\Repos\MyEnvironments)) {
 }
 else {
     Write-Host "Already cloned."
-}
-
-Write-Host -NoNewLine "Check chocolatey..."
-if (!(Test-Path "$($env:ProgramData)\chocolatey\choco.exe")) {
-    Write-Host "Install chocolatey."
-    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-}
-else {
-    Write-Host "Already installed."
 }
 
 Write-Host -NoNewLine "Check Hyper-V..."

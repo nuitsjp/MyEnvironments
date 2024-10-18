@@ -40,7 +40,7 @@ Import-Module -Name posh-winget
 # Git
 ############################################################################
 Write-Host -NoNewLine "Check Git.Git..."
-if ((Invoke-WingetList -Id Git.Git).Length -eq 0) {
+if (-not (Get-WinGetPackage -Id Git.Git)) {
     Write-Host "Install Git.Git."
     winget install --id Git.Git
     

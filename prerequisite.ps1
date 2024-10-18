@@ -1,3 +1,6 @@
+############################################################################
+# PSGallery
+############################################################################
 Write-Host -NoNewLine "Check PSGallery InstallationPolicy..."
 if ((Get-PSRepository -Name PSGallery).InstallationPolicy -eq 'Untrusted') {
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
@@ -7,6 +10,9 @@ else {
     Write-Host "Already trusted."
 }
 
+############################################################################
+# powershell-yaml
+############################################################################
 Write-Host -NoNewLine "Check powershell-yaml..."
 if (-not (Get-Module -Name powershell-yaml -ListAvailable)) {
     Write-Host "Install powershell-yaml."
@@ -17,6 +23,9 @@ else {
 }
 Import-Module -Name powershell-yaml
 
+############################################################################
+# posh-winget
+############################################################################
 Write-Host -NoNewLine "Check posh-winget..."
 if (-not (Get-Module -Name posh-winget -ListAvailable)) {
     Write-Host "Install posh-winget."
@@ -27,6 +36,9 @@ else {
 }
 Import-Module -Name posh-winget
 
+############################################################################
+# Git
+############################################################################
 Write-Host -NoNewLine "Check Git.Git..."
 if ((Invoke-WingetList -Id Git.Git).Length -eq 0) {
     Write-Host "Install Git.Git."
@@ -40,6 +52,9 @@ else {
     Write-Host "Already installed."
 }
 
+############################################################################
+# CapsLock -> Ctrl
+############################################################################
 Write-Host -NoNewLine "Check Scancode Map..."
 $keyboardLayoutPath = "Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout"
 if (-not (Get-ItemProperty $keyboardLayoutPath)."Scancode Map") {
@@ -58,6 +73,9 @@ else {
     Write-Host -message "Already Replaced."
 }
 
+############################################################################
+# PowerShell execution policy
+############################################################################
 Write-Host -NoNewLine "Check PowerShell execution policy..."
 if ((Get-ExecutionPolicy -Scope CurrentUser) -ne "RemoteSigned") {
     Write-Host "Set PowerShell execution policy for current user."
@@ -67,6 +85,9 @@ else {
     Write-Host "Already Set."
 }
 
+############################################################################
+# MyEnvironments
+############################################################################
 Write-Host -NoNewLine "Check MyEnvironments..."
 if (!(Test-Path C:\Repos\MyEnvironments)) {
     Write-Host "Clone MyEnvironments."
@@ -80,6 +101,9 @@ else {
     Write-Host "Already cloned."
 }
 
+############################################################################
+# Hyper-V
+############################################################################
 Write-Host -NoNewLine "Check Hyper-V..."
 if (((Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq 'Microsoft-Hyper-V' })[0].State) -eq 'Disabled') {
     Write-Host "Enable Hyper-V. After enabled, reboot."

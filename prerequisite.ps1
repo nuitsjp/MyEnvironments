@@ -11,30 +11,22 @@ else {
 }
 
 ############################################################################
-# powershell-yaml
+# GistGet
 ############################################################################
-Write-Host -NoNewLine "Check powershell-yaml..."
-if (-not (Get-Module -Name powershell-yaml -ListAvailable)) {
-    Write-Host "Install powershell-yaml."
-    Install-Module -Name powershell-yaml -Force -Scope CurrentUser -ErrorAction Stop
-}
-else {
-    Write-Host "Already installed."
-}
-Import-Module -Name powershell-yaml
+Write-Host -NoNewLine "Check GistGet..."
+if (-not (Get-Module -Name GistGet -ListAvailable)) {
+    Write-Host "Install GistGet."
+    Install-Module -Name GistGet -Force -Scope CurrentUser -ErrorAction Stop
 
-############################################################################
-# posh-winget
-############################################################################
-Write-Host -NoNewLine "Check posh-winget..."
-if (-not (Get-Module -Name posh-winget -ListAvailable)) {
-    Write-Host "Install posh-winget."
-    Install-Module -Name posh-winget -Force -Scope CurrentUser -ErrorAction Stop
+    # GitHub Personal Access Token
+    $token = Read-Host -Prompt "Enter GitHub Personal Access Token"
+    Set-GitHubToken $token
+    $token = $null
 }
 else {
     Write-Host "Already installed."
 }
-Import-Module -Name posh-winget
+Import-Module -Name GistGet
 
 ############################################################################
 # Git

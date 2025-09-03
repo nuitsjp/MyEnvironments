@@ -2,12 +2,6 @@
 
 Windowsの開発環境を構築・メンテナンスするためのスクリプトなどです。
 
-# 事前準備
-
-Userフォルダーを移動したい場合、一番最初につぎの手順を実施します。
-
-- [Windows 10でUsersフォルダを別ドライブへ移動する方法](https://www.nuits.jp/entry/windows10-relocate-users)
-
 # 初回実行
 
 ```cmd
@@ -20,13 +14,12 @@ PowerShellからつぎのコマンドを実行します。
 
 ```powershell
 cd c:\Repos\MyEnvironments
-sudo .\update.ps1
+sudo .\Init-Environment.ps1
 ```
 # 更新
 
 PowerShellからつぎのコマンドを実行します。
 
 ```powershell
-cd c:\Repos\MyEnvironments
-sudo .\update.ps1
+Sync-GistGetPackage
 ```

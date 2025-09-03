@@ -7,7 +7,18 @@ if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     exit 1
 }
 
-# Visual Studio Installerのパスを変数として定義
+Import-Module -Name GistGet
+
+############################################################################
+# WinGet Sync Package
+############################################################################
+Sync-GistGetPackage
+
+############################################################################
+# Update Visual Studio Workload
+############################################################################
+
+# Visual Studio Installerのパスを変数として定義 
 $vsInstallerDir = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer"
 $vswhereExe = Join-Path $vsInstallerDir "vswhere.exe"
 $vsInstallerExe = Join-Path $vsInstallerDir "vs_installer.exe"

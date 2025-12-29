@@ -66,6 +66,22 @@ function Format-PathString {
     return $Path.TrimEnd('\').Trim()
 }
 
+# パス存在確認関数
+function Test-PathExists {
+    param([string]$Path)
+    
+    if ([string]::IsNullOrWhiteSpace($Path)) {
+        return $false
+    }
+    
+    $expandedPath = [Environment]::ExpandEnvironmentVariables($Path).Trim().Trim('"')
+    if ([string]::IsNullOrWhiteSpace($expandedPath)) {
+        return $false
+    }
+    
+    return Test-Path -LiteralPath $expandedPath
+}
+
 # 重複分析関数
 function Find-PathDuplicates {
     Write-Host "=== PATH重複分析開始 ===" -ForegroundColor Cyan
@@ -94,9 +110,30 @@ function Find-PathDuplicates {
     $systemPaths = $systemPathString -split ';' | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
     $userPaths = $userPathString -split ';' | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
     
+    # 存在しないパスの抽出
+    $systemMissingPaths = @()
+    $systemExistingPaths = @()
+    foreach ($path in $systemPaths) {
+        if (Test-PathExists -Path $path) {
+            $systemExistingPaths += $path
+        } else {
+            $systemMissingPaths += $path
+        }
+    }
+    
+    $userMissingPaths = @()
+    $userExistingPaths = @()
+    foreach ($path in $userPaths) {
+        if (Test-PathExists -Path $path) {
+            $userExistingPaths += $path
+        } else {
+            $userMissingPaths += $path
+        }
+    }
+    
     # 正規化されたパスで比較用ハッシュテーブル作成
     $systemPathsNormalized = @{}
-    foreach ($path in $systemPaths) {
+    foreach ($path in $systemExistingPaths) {
         $normalizedPath = Format-PathString -Path $path
         if ($normalizedPath) {
             $systemPathsNormalized[$normalizedPath] = $path
@@ -107,7 +144,7 @@ function Find-PathDuplicates {
     $duplicatePaths = @()
     $uniquePaths = @()
     
-    foreach ($userPath in $userPaths) {
+    foreach ($userPath in $userExistingPaths) {
         $normalizedUserPath = Format-PathString -Path $userPath
         
         if ($normalizedUserPath -and $systemPathsNormalized.ContainsKey($normalizedUserPath)) {
@@ -121,6 +158,8 @@ function Find-PathDuplicates {
     Write-Host "`n=== 分析結果 ===" -ForegroundColor Yellow
     Write-Host "システムPATH エントリ数: $($systemPaths.Count)"
     Write-Host "ユーザーPATH エントリ数: $($userPaths.Count)"
+    Write-Host "システムPATH なしエントリ数: $($systemMissingPaths.Count)"
+    Write-Host "ユーザーPATH なしエントリ数: $($userMissingPaths.Count)"
     Write-Host "重複エントリ数: $($duplicatePaths.Count)"
     Write-Host "ユニークエントリ数: $($uniquePaths.Count)"
     Write-Host "重複率: $(($duplicatePaths.Count / $userPaths.Count * 100).ToString('F1'))%"
@@ -139,11 +178,27 @@ function Find-PathDuplicates {
         }
     }
     
+    if ($systemMissingPaths.Count -gt 0) {
+        Write-Host "`n?? 存在しない システムPATHエントリ:" -ForegroundColor Red
+        for ($i = 0; $i -lt $systemMissingPaths.Count; $i++) {
+            Write-Host "  $($i + 1). $($systemMissingPaths[$i])"
+        }
+    }
+    
+    if ($userMissingPaths.Count -gt 0) {
+        Write-Host "`n?? 存在しない ユーザーPATHエントリ:" -ForegroundColor Red
+        for ($i = 0; $i -lt $userMissingPaths.Count; $i++) {
+            Write-Host "  $($i + 1). $($userMissingPaths[$i])"
+        }
+    }
+    
     # 削減効果計算
     $originalLength = $userPathString.Length
     $cleanedPath = ($uniquePaths | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }) -join ';'
     $newLength = $cleanedPath.Length
     $savedChars = $originalLength - $newLength
+    
+    $cleanedSystemPath = ($systemExistingPaths | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }) -join ';'
     
     Write-Host "`n=== 削減効果 ===" -ForegroundColor Cyan
     Write-Host "削減エントリ数: $($duplicatePaths.Count) 個"
@@ -154,11 +209,17 @@ function Find-PathDuplicates {
     
     return @{
         SystemPaths = $systemPaths
+        SystemMissingPaths = $systemMissingPaths
+        SystemExistingPaths = $systemExistingPaths
         UserPaths = $userPaths
+        UserMissingPaths = $userMissingPaths
+        UserExistingPaths = $userExistingPaths
         DuplicatePaths = $duplicatePaths
         UniquePaths = $uniquePaths
+        OriginalSystemPath = $systemPathString
         OriginalUserPath = $userPathString
         CleanedPath = $cleanedPath
+        CleanedSystemPath = $cleanedSystemPath
         SavedChars = $savedChars
         SavedEntries = $duplicatePaths.Count
     }
@@ -172,7 +233,7 @@ function Remove-PathDuplicates {
         [bool]$ForceMode
     )
     
-    if ($AnalysisResult.SavedEntries -eq 0) {
+    if ($AnalysisResult.SavedEntries -eq 0 -and $AnalysisResult.UserMissingPaths.Count -eq 0 -and $AnalysisResult.SystemMissingPaths.Count -eq 0) {
         Write-Host "`n✅ 重複エントリが見つかりませんでした。処理の必要はありません。" -ForegroundColor Green
         return $true
     }
@@ -181,6 +242,14 @@ function Remove-PathDuplicates {
     
     # WhatIfモードの場合は結果のみ表示
     if ($WhatIfMode) {
+        if ($AnalysisResult.SystemMissingPaths.Count -gt 0) {
+            Write-Host "`n変更後のシステムPATH (プレビュー):" -ForegroundColor Magenta
+            $AnalysisResult.SystemExistingPaths | ForEach-Object { 
+                if (-not [string]::IsNullOrWhiteSpace($_)) {
+                    Write-Host "  $_"
+                }
+            }
+        }
         Write-Host "💡 WhatIfモード: 実際の変更は行いません" -ForegroundColor Yellow
         Write-Host "`n変更後のユーザーPATH (プレビュー):" -ForegroundColor Magenta
         $AnalysisResult.UniquePaths | ForEach-Object { 
@@ -193,6 +262,10 @@ function Remove-PathDuplicates {
     
     # 確認プロンプト（-Force指定時はスキップ）
     if (-not $ForceMode) {
+        Write-Host "`n??  重複/存在しないエントリを削除しますか？" -ForegroundColor Yellow
+        Write-Host "   ユーザーPATH 重複: $($AnalysisResult.SavedEntries) 個"
+        Write-Host "   ユーザーPATH なし: $($AnalysisResult.UserMissingPaths.Count) 個"
+        Write-Host "   システムPATH なし: $($AnalysisResult.SystemMissingPaths.Count) 個"
         Write-Host "`n⚠️  $($AnalysisResult.SavedEntries)個の重複エントリをユーザーPATHから削除しますか？" -ForegroundColor Yellow
         Write-Host "   削減文字数: $($AnalysisResult.SavedChars) 文字"
         Write-Host "   バックアップは自動で作成されます。"
@@ -204,12 +277,36 @@ function Remove-PathDuplicates {
     }
     
     # バックアップ作成
-    $backupFile = New-PathBackup -Path $AnalysisResult.OriginalUserPath -Type "User"
+    $backupUserFile = $null
+    $backupSystemFile = $null
+    if ($AnalysisResult.UserMissingPaths.Count -gt 0 -or $AnalysisResult.SavedEntries -gt 0) {
+        $backupUserFile = New-PathBackup -Path $AnalysisResult.OriginalUserPath -Type "User"
+    }
+    if ($AnalysisResult.SystemMissingPaths.Count -gt 0) {
+        $backupSystemFile = New-PathBackup -Path $AnalysisResult.OriginalSystemPath -Type "System"
+    }
+    
+    $success = $true
+    
+    # システムPATH更新実行
+    if ($AnalysisResult.SystemMissingPaths.Count -gt 0) {
+        try {
+            [Environment]::SetEnvironmentVariable("PATH", $AnalysisResult.CleanedSystemPath, "Machine")
+            Write-Host "? システムPATHから存在しないエントリを削除しました！" -ForegroundColor Green
+        }
+        catch {
+            Write-Error "システムPATH更新に失敗しました: $($_.Exception.Message)"
+            if ($backupSystemFile) {
+                Write-Host "バックアップファイル: $backupSystemFile" -ForegroundColor Yellow
+            }
+            $success = $false
+        }
+    }
     
     # ユーザーPATH更新実行
     try {
         [Environment]::SetEnvironmentVariable("PATH", $AnalysisResult.CleanedPath, "User")
-        Write-Host "✅ ユーザーPATHから重複エントリを削除しました！" -ForegroundColor Green
+        Write-Host "? ユーザーPATHを更新しました！" -ForegroundColor Green
         
         # 結果確認
         $newUserPath = [Environment]::GetEnvironmentVariable("PATH", "User")
@@ -217,21 +314,25 @@ function Remove-PathDuplicates {
         Write-Host "削除前: $($AnalysisResult.OriginalUserPath.Length) 文字 ($($AnalysisResult.UserPaths.Count) エントリ)"
         Write-Host "削除後: $($newUserPath.Length) 文字 ($($AnalysisResult.UniquePaths.Count) エントリ)"
         Write-Host "削減量: $($AnalysisResult.SavedChars) 文字 ($($AnalysisResult.SavedEntries) エントリ)"
+        Write-Host "ユーザーPATH なし: $($AnalysisResult.UserMissingPaths.Count) エントリ"
         
-        Write-Host "`n📝 注意事項:" -ForegroundColor Yellow
+        Write-Host "`n?? 注意事項:" -ForegroundColor Yellow
         Write-Host "- 新しいコマンドプロンプト/PowerShellを開いて変更を確認してください"
         Write-Host "- すべてのアプリケーションが正常に動作することを確認してください"
-        if ($backupFile) {
-            Write-Host "- 問題がある場合は、バックアップファイルから復元できます: $backupFile"
-            Write-Host "- 復元コマンド: [Environment]::SetEnvironmentVariable('PATH', (Get-Content '$backupFile'), 'User')"
+        if ($backupUserFile) {
+            Write-Host "- 問題がある場合は、バックアップファイルから復元できます: $backupUserFile"
+            Write-Host "- 復元コマンド: [Environment]::SetEnvironmentVariable('PATH', (Get-Content '$backupUserFile'), 'User')"
+        }
+        if ($backupSystemFile) {
+            Write-Host "- システムPATH復元コマンド: [Environment]::SetEnvironmentVariable('PATH', (Get-Content '$backupSystemFile'), 'Machine')"
         }
         
-        return $true
+        return $success
     }
     catch {
         Write-Error "ユーザーPATH更新に失敗しました: $($_.Exception.Message)"
-        if ($backupFile) {
-            Write-Host "バックアップファイル: $backupFile" -ForegroundColor Yellow
+        if ($backupUserFile) {
+            Write-Host "バックアップファイル: $backupUserFile" -ForegroundColor Yellow
         }
         return $false
     }
@@ -241,7 +342,7 @@ function Remove-PathDuplicates {
 function Start-DuplicateRemoval {
     Write-Host "=== PATH重複エントリ削除スクリプト ===" -ForegroundColor Green
     Write-Host "実行日時: $(Get-Date -Format 'yyyy年MM月dd日 HH:mm:ss')"
-    Write-Host "目的: ユーザーPATHからシステムPATHとの重複エントリを削除" -ForegroundColor Cyan
+    Write-Host "目的: システム/ユーザーPATHの重複と存在しないエントリを削除" -ForegroundColor Cyan
     
     # 重複分析実行
     $analysisResult = Find-PathDuplicates
@@ -271,3 +372,4 @@ function Start-DuplicateRemoval {
 
 # スクリプト実行
 Start-DuplicateRemoval
+

@@ -1,0 +1,4 @@
+# Git 管理外ファイル
+
+# ローカル専用設定
+profile.d/90-local.ps1

@@ -11,7 +11,7 @@ function Start-Codex {
     $codexArgs = @(
         '--enable', 'experimental_windows_sandbox', 
         '--sandbox', 'danger-full-access',
-        '--ask-for-approval', 'never',
+        # '--ask-for-approval', 'never',
         '--config', 'windows_wsl_setup_acknowledged=true'
     )
 

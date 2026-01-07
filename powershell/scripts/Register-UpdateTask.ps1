@@ -7,24 +7,21 @@ function Init-Environments {
 		[string[]]$Time = @('07:10','12:10')
 	)
 
-	$scriptPath = Join-Path $PSScriptRoot '99-UpdatePackages.ps1'
+	# 実行するコマンドを .cmd に変更
+	$cmdPath = Join-Path $PSScriptRoot 'Update-Packages.cmd'
 
-	if (-not (Test-Path $scriptPath)) {
-		Write-Error "スクリプトが見つかりません: $scriptPath"
+	if (-not (Test-Path $cmdPath)) {
+		Write-Error "スクリプトが見つかりません: $cmdPath"
 		return
 	}
 
-	$args = "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$scriptPath`""
-
-	# pwsh.exe が PATH にない環境だと Task Scheduler はファイルが見つからず起動に失敗する
-	# より確実に実行するため、まず pwsh.exe のフルパスを探し、なければ powershell.exe にフォールバックする
-	$pwshPath = (Get-Command pwsh.exe -ErrorAction SilentlyContinue).Path
-	if (-not $pwshPath) {
-		Write-Error "pwsh.exe が見つかりません。タスクは登録されません。"
+	$cmdExe = (Get-Command 'cmd.exe' -ErrorAction SilentlyContinue).Path
+	if (-not $cmdExe) {
+		Write-Error "cmd.exe が見つかりません。タスクは登録されません。"
 		return
 	}
 
-	$action = New-ScheduledTaskAction -Execute $pwshPath -Argument $args
+	$action = New-ScheduledTaskAction -Execute $cmdExe -Argument "/c `"$cmdPath`""
 	$triggers = $Time | ForEach-Object { New-ScheduledTaskTrigger -Daily -At $_ }
 
 	$user = "$env:USERDOMAIN\$env:USERNAME"

@@ -2,49 +2,47 @@
 
 Use this checklist to evaluate skills against best practices.
 
-## Metadata
+## Metadata (frontmatter)
 
-- [ ] **Name**: Lowercase, hyphens only, max 64 chars, no reserved words (anthropic, claude)
-- [ ] **Name pattern**: Uses `noun-verb` pattern (e.g., `skill-creator`, `pr-creator`)
-- [ ] **Description**: Non-empty, max 1024 chars, no XML tags
-- [ ] **Description content**: Includes WHAT it does AND WHEN to use it
-- [ ] **Description keywords**: Contains both English AND Japanese (日本語) keywords
-- [ ] **Description voice**: Written in third person (not "I can" or "You can")
+- [ ] **name**: Lowercase, hyphens only, max 64 chars, no reserved words (anthropic, claude)
+- [ ] **name pattern**: Uses `verb-noun` pattern (e.g., `creating-issues`, `starting-issues`)
+- [ ] **description**: Non-empty, max 1024 chars, no XML tags
+- [ ] **description content**: Starts with Japanese summary, then "Use when..." with English/Japanese keywords
+- [ ] **description voice**: Written in third person (not "I can" or "You can")
+- [ ] **allowed-tools**: Only tools actually needed
 
-## Structure
+## SKILL.md Structure (minimize load tokens)
 
-- [ ] **SKILL.md length**: Under 500 lines
-- [ ] **Quick start**: Has concise overview section
-- [ ] **Workflow**: Uses checklist format for multi-step tasks
-- [ ] **Progressive disclosure**: Complex details in separate files
-- [ ] **Reference depth**: All references one level deep from SKILL.md
-- [ ] **Table of contents**: Long reference files (100+ lines) have TOC
+- [ ] **Minimal content**: Only frontmatter + 1-line summary + dynamic commands + resource links
+- [ ] **Dynamic commands**: Use `!` prefix for context needed at load time (e.g., `!`git remote -v``)
+- [ ] **Resource links**: Use markdown links `[file.md](file.md)` (NOT `@file.md` which causes static load)
+- [ ] **Under 30 lines**: Aim for minimal SKILL.md to reduce default load tokens
 
-## Content
+## Separate Files (on-demand loading)
 
-- [ ] **Conciseness**: No unnecessary explanations Claude already knows
-- [ ] **Terminology**: Consistent terms throughout (not mixing synonyms)
-- [ ] **Time-sensitive info**: None, or in "old patterns" section
-- [ ] **Examples**: Concrete input/output pairs where helpful
+- [ ] **workflow.md**: Detailed step-by-step procedures
+- [ ] **Reference files**: Additional context (CHECKLIST.md, examples.md, etc.)
+- [ ] **One level deep**: All references directly from SKILL.md (no nested references)
+- [ ] **TOC for long files**: Files over 100 lines should have table of contents
 
-## Paths and Scripts
+## Content Guidelines
 
-- [ ] **Path format**: Uses forward slashes only (no backslashes)
-- [ ] **Script execution**: Clear "Run:" prefix for commands
-- [ ] **Error handling**: Scripts handle errors, don't punt to Claude
-- [ ] **Dependencies**: Required packages listed
+- [ ] **Conciseness**: No explanations Claude already knows
+- [ ] **Terminology**: Consistent terms throughout
+- [ ] **Concrete examples**: Input/output pairs where helpful
+- [ ] **Clear commands**: Use "Run:" prefix for executable commands
 
-## Workflows
+## Workflow Best Practices
 
-- [ ] **Clear steps**: Sequential, numbered steps
-- [ ] **Decision points**: Conditional workflows guide Claude through choices
-- [ ] **Feedback loops**: Validation steps for critical operations
-- [ ] **Degrees of freedom**: Appropriate specificity for task fragility
+- [ ] **Checklist format**: Copy-paste checklist at top of workflow
+- [ ] **Sequential steps**: Numbered, clear progression
+- [ ] **Decision points**: Guide through conditional choices
+- [ ] **Next actions**: Offer follow-up skills where appropriate
 
-## Anti-patterns to avoid
+## Anti-patterns to Avoid
 
 - [ ] No vague descriptions ("helps with documents")
-- [ ] No excessive options without clear defaults
+- [ ] No `@file.md` syntax (causes static loading)
 - [ ] No deeply nested file references
-- [ ] No magic numbers without justification
+- [ ] No excessive content in SKILL.md
 - [ ] No assumptions about installed packages

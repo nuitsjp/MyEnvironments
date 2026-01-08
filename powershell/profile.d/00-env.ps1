@@ -7,7 +7,7 @@ function Sync-UserHome {
         return
     }
 
-    Copy-Item -Path "$sourceDir\*" -Destination $destDir -Recurse -Force
+    Copy-Item -Path "$sourceDir\*" -Destination $destDir -Recurse -Force -Exclude "stats-cache.json"
     Write-Host "Synced files from $sourceDir to $destDir"
 }
 

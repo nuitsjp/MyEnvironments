@@ -1,4 +1,10 @@
 {
+        "github.copilot.nextEditSuggestions.enabled": true,
+        "editor.minimap.enabled": false,
+        "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
+        "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
+        "commentTranslate.targetLanguage": "ja",
+        "commentTranslate.browse.mode": "inplace",
         "cSpell.words": [
                 "addcontextmenufiles",
                 "addcontextmenufolders",

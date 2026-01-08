@@ -10,13 +10,14 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-# Get repository root
+# Get repository root and move there
 $repoRoot = (git rev-parse --show-toplevel 2>$null)
 if ($LASTEXITCODE -ne 0 -or -not $repoRoot) {
     Write-Error "Not a git repository."
     exit 1
 }
 $repoRoot = $repoRoot.Trim()
+Set-Location $repoRoot
 
 # Determine paths
 $worktreesRoot = Join-Path $repoRoot ".worktrees"

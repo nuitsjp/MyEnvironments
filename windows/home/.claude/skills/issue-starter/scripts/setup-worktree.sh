@@ -12,12 +12,13 @@ fi
 
 ISSUE="$1"
 
-# Get repository root
+# Get repository root and move there
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
 if [[ -z "$REPO_ROOT" ]]; then
     echo "Error: Not a git repository." >&2
     exit 1
 fi
+cd "$REPO_ROOT"
 
 # Determine paths
 WORKTREES_ROOT="${REPO_ROOT}/.worktrees"

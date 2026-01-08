@@ -53,13 +53,13 @@ worktreePath=$(bash .claude/skills/starting-issues/scripts/setup-worktree.sh {�
 
 スクリプトは以下を行う:
 - リポジトリルートを取得
-- worktrees用ディレクトリ `[リポジトリ名]-worktrees/` を作成（存在しない場合）
+- worktrees用ディレクトリ `.worktrees/` を作成（存在しない場合）
 - ブランチ `fix-issue-{番号}` の存在を確認
 - worktreeが既に存在すればそのパスを返す
 - 存在しなければ新規作成してパスを返す
 
 **作成されるパス**:
-- worktrees用ディレクトリ: `[リポジトリ親ディレクトリ]/[リポジトリ名]-worktrees/`
+- worktrees用ディレクトリ: `[リポジトリルート]/.worktrees/`
 - worktreeパス: `[worktrees用ディレクトリ]/fix-issue-{番号}`
 - ブランチ名: `fix-issue-{番号}`
 

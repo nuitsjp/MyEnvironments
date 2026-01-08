@@ -20,8 +20,7 @@ if [[ -z "$REPO_ROOT" ]]; then
 fi
 
 # Determine paths
-REPO_NAME=$(basename "$REPO_ROOT")
-WORKTREES_ROOT="$(dirname "$REPO_ROOT")/${REPO_NAME}-worktrees"
+WORKTREES_ROOT="${REPO_ROOT}/.worktrees"
 BRANCH_NAME="fix-issue-${ISSUE}"
 WORKTREE_PATH="${WORKTREES_ROOT}/${BRANCH_NAME}"
 

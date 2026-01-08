@@ -19,8 +19,7 @@ if ($LASTEXITCODE -ne 0 -or -not $repoRoot) {
 $repoRoot = $repoRoot.Trim()
 
 # Determine paths
-$repoName = Split-Path -Leaf $repoRoot
-$worktreesRoot = Join-Path (Split-Path -Parent $repoRoot) "$repoName-worktrees"
+$worktreesRoot = Join-Path $repoRoot ".worktrees"
 $branchName = "fix-issue-$Issue"
 $worktreePath = Join-Path $worktreesRoot $branchName
 

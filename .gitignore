@@ -1,4 +1,5 @@
 ## User-specific files
+.worktrees/
 PATH_Backup_*
 
 ## Visual Studio

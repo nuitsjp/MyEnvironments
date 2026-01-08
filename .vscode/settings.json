@@ -29,7 +29,8 @@
                 "Telerik",
                 "TMPTEST",
                 "VERYSILENT",
-                "voidtools"
+                "voidtools",
+                "worktrees"
         ],
         "[powershell]": {
                 "debug.saveBeforeStart": "nonUntitledEditorsInActiveGroup",

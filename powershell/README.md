@@ -33,10 +33,9 @@ git clone <your-repo-url> pwsh-profile
 `$PROFILE` (通常 `$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`) に以下を記述:
 
 ```powershell
-# ---- bootstrap only ----
-
 $ProfileDir  = Join-Path 'D:' 'MyEnvironments' 'powershell' 'profile.d'
 
+Write-Output "Loading profile: $ProfileDir"
 if (Test-Path $ProfileDir) {
     Get-ChildItem $ProfileDir -Filter *.ps1 |
         Sort-Object Name |
